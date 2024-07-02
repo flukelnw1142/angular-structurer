@@ -1,0 +1,120 @@
+<p-card [ngStyle]="{ 'box-shadow': 'none !important' }">
+    <div class=" flex justify-content-between flex-wrap">
+        <div class="flex align-items-center justify-content-center  m-2">
+            <img [src]="imageUrl" style="width: 85px;margin-right: 10px;" />
+            <div style="display: grid;">
+                <ng-container *ngIf="this._authService.user$ | async as user">
+                    <b style="font-size: 29px;font-weight: bold;">สวัสดีคุณ {{user.firstName }} {{user.lastName }}</b>
+                </ng-container>
+
+                <b style="font-size: 18.5px;font-weight: bold;color: #868b92;"><i class="pi pi-calendar-times"
+                        style="font-size: 1rem"></i> {{now |thaiDateTime }}</b>
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-center  m-2">
+
+        </div>
+    </div>
+</p-card>
+
+<div style="margin-top: 14px;">
+    <p-card header="ภาพรวมใบงาน(รับรองจบใบงานแล้ว)">
+
+
+        <div class="overflow-hidden">
+            <form [formGroup]="searchForm">
+                <div class="grid">
+                    <div class="col-3">
+                        <label>ปี<span style="color: red">*</span></label>
+                        <div>
+                            <p-dropdown [filter]="true" filterBy="busLinesNo" formControlName="year"
+                                emptyFilterMessage="ไม่พบข้อมูล" [options]="lastTenYears" optionLabel="title"
+                                optionValue="value" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%','height':'48px' }" appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label for="integer">เลขที่ใบงาน</label>
+                        <input placeholder="กรอกคำค้นหา" formControlName="worksheetId" pInputText id="integer"
+                            class="w-full" [style]="{'minWidth':'100%','height':'48px' }" />
+                    </div>
+                    <div class="col-3">
+                        <label>สายรถเมล์ <span style="color: red">*</span></label>
+                        <div>
+                            <p-dropdown [filter]="true" formControlName="busLinesNo" filterBy="busLinesNo"
+                                emptyFilterMessage="ไม่พบข้อมูล" [options]="busLinesList" optionLabel="busLinesNo"
+                                optionValue="busLinesNo" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%','height':'48px' }" appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label for="integer"> เลขข้างรถ </label>
+                        <input formControlName="busVehicleNumber" placeholder="กรอกคำค้นหา" pInputText id="integer"
+                            class="w-full" [style]="{'minWidth':'100%','height':'48px' }" />
+                    </div>
+
+                </div>
+            </form>
+            <div class="gird text-center">
+                <div class="text-center gap-3 mt-4">
+                    <p-button icon="pi pi-search" (click)="search()" label="ค้นหา"
+                        styleClass="p-button-success p-button-sm p-button-w mr-2"></p-button>
+                    <p-button (click)="clearData()" icon="pi  pi-times" label="ล้างข้อมูล"
+                        styleClass="p-button-secondary p-button-sm p-button-w "></p-button>
+
+                </div>
+            </div>
+            <div class="flex mt-5">
+                <div class="flex-1 ">
+                    <p-table #datatableFare [value]="dashboardSearch" styleClass="p-datatable-gridlines"
+                        [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
+                        [rowsPerPageOptions]="[10, 25, 50]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
+                                <th class="text-center">เลขที่ใบงาน</th>
+                                <th class="text-center">สายรถเมล์</th>
+                                <th class="text-center">เลขข้างรถ</th>
+                                <th class="text-center">วันที่ใบงาน</th>
+                                <th class="text-right">ชั่วโมงการทำงาน</th>
+                                <th class="text-right">ชั่วโมงโอที</th>
+                                <th class="text-right">ตั๋วรวม(ใบ)</th>
+                                <th class="text-right">ยอดเงินรวม</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">{{ i + 1 }}</td>
+                                <td style="text-align: center;">{{ item.worksheetId ?? '-'}}</td>
+                                <td style="text-align: center;">{{ item.busLinesNo ?? '-'}}</td>
+                                <td style="text-align: center;">{{ item.busVehicleNumber ?? '-'}}</td>
+                                <td style="text-align: center;">{{ item.updateDate ?? '-'| thaiDate}} </td>
+                                <td class="text-right">{{ item.worksheetHours ?? '-' }}</td>
+                                <td class="text-right">{{ item.worksheetHoursOt ?? '-' }}</td>
+                                <td class="text-right">{{ item.worksheetSumTicket ?? '-' }}</td>
+                                <td class="text-right">{{ item.worksheetSumIncome | thaiMoney }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                                <td colspan="5" style="text-align: right; font-weight: bold;">รวม</td>
+                                <td class="text-right" style="font-weight: bold;">{{ calculateTotal('worksheetHours')|
+                                    thaiNumber }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">{{ calculateTotal('worksheetHoursOt')
+                                    | thaiNumber }}</td>
+                                <td class="text-right" style="font-weight: bold;">{{
+                                    calculateTotal('worksheetSumTicket') | thaiNumber}}</td>
+                                <td class="text-right" style="font-weight: bold;">{{
+                                    calculateTotal('worksheetSumIncome') | thaiMoney }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+
+    </p-card>
+</div>
+<br>

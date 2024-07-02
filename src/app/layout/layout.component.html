@@ -1,0 +1,76 @@
+<ng-container *ngIf="layoutType$ | async as layoutType">
+  <ng-container *ngIf="layoutType === LayoutTyped.NO_AUTH">
+    <router-outlet></router-outlet>
+  </ng-container>
+  <ng-container *ngIf="layoutType === LayoutTyped.AUTH">
+    <div class="flex flex-row h-screen bg-white text-gray-800">
+      <div>
+        <nav [class.close]="!isToggle" class="sidebar">
+          <header>
+            <div class="image-text">
+              <span class="image">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/BMTA_Logo2014-th.svg/250px-BMTA_Logo2014-th.svg.png"
+                  alt="logo" />
+              </span>
+              <div class="text logo-text">
+                <span class="name">องค์การขนส่งมวลชนกรุงเทพ</span>
+                <span class="profession">Bangkok Mass Transit Authority</span>
+              </div>
+            </div>
+          </header>
+          <div class="menu-bar">
+            <div class="menu">
+              <ul class="menu-links">
+                <li class="nav-link" *ngFor="let item of items">
+                  <a [routerLink]="item.router" [ngClass]="{ active: isActive(item.router) }">
+                    <i class="pi {{ item.icon }}" style="font-size: 1.4rem; margin-left: 16px; margin-right: 10px"></i>
+                    <span class="text nav-text ml-2"> {{ item.menu_th }}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="bottom-content">
+              <li (click)="confirmPosition()">
+                <a>
+                  <i class="pi pi-power-off" style="font-size: 1.4rem; margin-left: 16px; margin-right: 10px"></i>
+                  <span class="text nav-text">ออกจากระบบ</span>
+                </a>
+              </li>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <main class="main flex flex-col flex-grow transition-all duration-200 ease-in-out background-outlet">
+        <div class="sticky z-1">
+          <div class="px-2 pt-2">
+            <p-toolbar>
+              <div class="p-toolbar-group-start">
+                <p-button class="mr-3" icon="pi pi-bars" [style]="{
+                            background: '#fff',
+                            border: '1px solid #DEE2E6',
+                            zIndex: 99,
+                            color: '#515252'
+                          }" (click)="open()"></p-button>
+                <h3> ระบบบริหารจัดการใบเที่ยวรถโดยสารประจำทาง</h3>
+              </div>
+              <div class="p-toolbar-group-end" style="display: flex; gap: 10px">
+                <ng-container *ngIf="this._authService.user$ | async as user">
+                  <span> ผู้ใช้งาน : {{user.username }} </span>
+                </ng-container>
+              </div>
+            </p-toolbar>
+          </div>
+        </div>
+        <div class=" mt-3 main flex flex-col flex-grow overflow-y-auto overflow-x-hidden relative">
+          <div class="px-2">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </main>
+    </div>
+    <p-confirmDialog [style]="{ width: '30vw' }" acceptLabel="ยืนยัน" rejectLabel="ยกเลิก" key="positionDialog"
+      position="top" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+  </ng-container>
+
+</ng-container>

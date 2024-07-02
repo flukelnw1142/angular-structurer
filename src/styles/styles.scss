@@ -1,0 +1,128 @@
+@import "./third-party/index.scss";
+@import "./customs/index.scss";
+
+/* fonts */
+@import "./customs/fonts.scss";
+
+/* scrollbar */
+@import "./customs/scrollbar.scss";
+
+/* colors */
+@import "./customs/colors.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* ===== Colors ===== */
+  --body-color: #e4e9f7;
+  --sidebar-color: #fff;
+  --primary-color: #695cfe;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #707070;
+
+  /* ====== Transition ====== */
+  --tran-03: all 0.2s ease;
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.3s ease;
+  --tran-05: all 0.3s ease;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+}
+
+::selection {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.p-button-w {
+  width: 120px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
+
+p-dropdown {
+  .p-disabled {
+    background-color: rgb(200 212 221) !important;
+    border: 1px solid darkgrey !important;
+    color: #000000 !important;
+  }
+}
+
+p-dropdown[readonly] {
+  background-color: rgb(200 212 221) !important;
+  border: 1px solid darkgrey !important;
+  color: #000000 !important;
+}
+
+input[readonly] {
+  background-color: rgb(200 212 221) !important;
+  border: 1px solid darkgrey !important;
+  color: #000000 !important;
+}
+
+
+
+
+p-multiselect {
+  .p-disabled {
+    background-color: rgb(200 212 221) !important;
+    border: 1px solid darkgrey !important;
+    color: rgb(0, 0, 0) !important;
+  }
+}
+
+textarea:disabled {
+  background-color: rgb(200 212 221) !important;
+  border: 1px solid darkgrey !important;
+  color: rgb(0, 0, 0) !important;
+
+}
+
+input:disabled {
+  background-color: rgb(193, 202, 208) !important;
+  color: rgb(0, 0, 0) !important;
+  border: 1px solid darkgrey !important;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+  padding-top: 5.5px !important;
+  padding-right: 1rem !important;
+  padding-bottom: 5.5px !important;
+  padding-left: 1rem !important;
+  font-size: 14.8px !important;
+}
+
+;
+
+.p-button.p-button-icon-only {
+  width: 42px !important;
+  height: 38px !important;
+}
+
+.p-button.p-button-sm {
+  font-size: 0.875rem !important;
+  padding: 8px 16px !important;
+}

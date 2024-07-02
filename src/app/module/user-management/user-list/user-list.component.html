@@ -1,0 +1,267 @@
+<div class="mb-2">
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="ค้นหารายการผู้ใช้งาน">
+            <div class="flex flex-wrap gap-3 mb-2">
+                <div class="flex-auto">
+                    <label for="integer" class="font-bold block mb-2"> ชื่อ-นามสกุล </label>
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableUser.filter(getDataInput($event),'fullName' , 'contains')" pInputText
+                        id="integer" class="w-full" />
+                </div>
+                <div class="flex-auto">
+                    <label for="number" class="font-bold block mb-2"> เบอร์โทรศัพท์ </label>
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableUser.filter(getDataInput($event),'phoneNumber' , 'contains')" pInputText
+                        id="integer" class="w-full" pInputText class="w-full" />
+                </div>
+                <div class="flex-auto">
+                    <label for="number" class="font-bold block mb-2"> ตำแหน่ง </label>
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableUser.filter(getDataInput($event),'position' , 'contains')" pInputText
+                        id="integer" class="w-full" pInputText class="w-full" />
+                </div>
+                <div class="flex-auto"></div>
+                <div class="flex-auto"></div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>
+<p-accordion [activeIndex]="0">
+    <p-accordionTab header="รายการผู้ใช้งาน">
+        <div class="flex justify-content-between mb-3">
+            <h2></h2>
+            <p-button (click)="openSidebar()" icon="pi pi-plus" label="เพิ่มผู้ใช้งาน"
+                styleClass="p-button-success p-button-sm"></p-button>
+        </div>
+        <p-table #datatableUser styleClass="p-datatable-gridlines" [value]="dataUsers" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
+            [rowsPerPageOptions]="[10, 25, 50]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
+                    <th pSortableColumn="username" class="text-center"> ผู้ใช้งาน <p-sortIcon
+                            field="username"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="platform" class="text-center">แพลตฟอร์ม <p-sortIcon
+                            field="platform"></p-sortIcon></th>
+                    <th pSortableColumn="fullName">ชื่อ-นามสกุล <p-sortIcon field="fullName"></p-sortIcon></th>
+                    <th pSortableColumn="phoneNumber" class="text-center">เบอร์โทรศัพท์ <p-sortIcon
+                            field="phoneNumber"></p-sortIcon></th>
+                    <th pSortableColumn="position">ตำแหน่ง <p-sortIcon field="position"></p-sortIcon></th>
+                    <th class="text-center" pSortableColumn="employeeStatus">สถานะ <p-sortIcon
+                            field="employeeStatus"></p-sortIcon></th>
+                    <th class="text-center">วันที่สร้าง</th>
+                    <th class="text-center">จัดการ</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td style="text-align: center;">{{ i + 1 }}</td>
+                    <td class="text-center">{{ item.username ?? '-' }} </td>
+                    <td class="text-center"><span
+                            [class]="item.platform == 'WEBSITE' ? 'pi pi-desktop' :  'pi pi-mobile'"></span> {{
+                        item.platform == 'WEBSITE'
+                        ? 'เว็บแอปพลิเคชัน' : 'โมบายแอปพลิเคชัน' }}</td>
+
+                    <td>{{ item.fullName ?? '-' }} </td>
+                    <td class="text-center">{{ item.phoneNumber ?? '-' }}</td>
+                    <td>{{ item.position ?? '-' }}</td>
+                    <td class="text-center">{{ userStatusCheck(item.employeeStatus)}}</td>
+                    <td class="text-center">{{ item.createDate | thaiDate}}</td>
+                    <td class="text-center">
+                        <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+                            styleClass="p-button-warning mr-2"></p-button>
+                        <p-button *ngIf="item.username != 'admin'" (click)="confirmDelete(item)" icon="pi pi-trash"
+                            styleClass="p-button-danger"></p-button>
+                        <p-button *ngIf="item.username == 'admin'" icon="pi pi-lock"
+                            styleClass="p-button-secondary "></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-accordionTab>
+</p-accordion>
+
+<p-dialog [draggable]="false" [header]="actionStatus == 'save' ? 'เพิ่มผู้ใช้งาน' : 'แก้ไขผู้ใช้งาน' "
+    [(visible)]="sidebar" [modal]="true" [style]="{ width: '62vw', height: '900px' }">
+    <form [formGroup]="registerForm">
+        <div class="p-3">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>สิทธ์การใช้งาน <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('roleCode') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown (onChange)="getCategoryData($event)" appendTo="body" [filter]="true"
+                                filterBy="roleName" emptyFilterMessage="ไม่พบข้อมูล" formControlName="roleCode"
+                                [options]="dataRoles" optionLabel="roleName" optionValue="roleCode"
+                                placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"></p-dropdown>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6"></div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>เลือกกะการทำงาน <span style="color: red"
+                                *ngIf="this.registerForm.get('employeeShift')?.validator">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('employeeShift') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown formControlName="employeeShift" [options]="shifts" optionLabel="name"
+                                optionValue="name" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>คำนำหน้า <span style="color: red">*</span></label>
+                        <div [ngStyle]="isFieldValid('prefix') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown formControlName="prefix" [options]="prefix" optionLabel="prefix"
+                                optionValue="code" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>ชื่อ <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลชื่อ"
+                            [ngStyle]="isFieldValid('firstName') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="firstName" />
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>นามสกุล <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลนามสกุล"
+                            [ngStyle]="isFieldValid('lastName') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="lastName" />
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>ตำแหน่ง <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลตำแหน่ง"
+                            [ngStyle]="isFieldValid('position') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="position" />
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>เบอร์โทรศัพท์ <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลเบอร์โทรศัพท์"
+                            [ngStyle]="isFieldValid('phoneNumber') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="phoneNumber" appPhoneNumberFormat />
+                        <div *ngIf="registerForm.get('phoneNumber')!.hasError('phoneNumberFormat')">
+                            รูปแบบเบอร์ศัพท์ไม่ถูกต้อง
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>ท่ารถเมล์ <span *ngIf="this.registerForm.get('busTerminalId')?.validator"
+                                style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busTerminalId') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [filter]="true" filterBy="busTerminalName" emptyFilterMessage="ไม่พบข้อมูล"
+                                formControlName="busTerminalId" [options]="busTerminals" optionLabel="busTerminalName"
+                                optionValue="busTerminalId" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>สายรถเมล์ <span style="color: red"
+                                *ngIf="this.registerForm.get('buslinesId')?.validator">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('buslinesId') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [filter]="true" filterBy="busLinesNo" emptyFilterMessage="ไม่พบข้อมูล"
+                                formControlName="buslinesId" [options]="busLines" optionLabel="busLinesNo"
+                                optionValue="busLinesId" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>อีเมล <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลอีเมล" [appStrongEmailFormat]="true"
+                            [ngStyle]="isFieldValid('email') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="email" type="email" />
+                        <div *ngIf="registerForm.get('email')!.hasError('strongEmailFormat')"
+                            style="font-size: 14px;color: red;">
+                            อีเมลต้องอยู่ในรูปแบบที่ถูกต้อง
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="formgrid grid mt-1">
+                        <div class="field ml-2 ">
+                            <label>แพลตฟอร์มที่ต้องการสร้าง</label>
+                            <div class="flex flex-wrap gap-3">
+                                <div class="flex align-items-start">
+                                    <p-radioButton (click)="switchPlatform('WEBSITE') " name="platform" value="WEBSITE"
+                                        formControlName="platform" inputId="WEBSITE"></p-radioButton>
+                                    <label for="WEBSITE" class="ml-2">เว็บแอปพลิเคชัน</label>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-radioButton (click)="switchPlatform('APPLICATION')" name="platform"
+                                        value="APPLICATION" formControlName="platform"
+                                        inputId="APPLICATION"></p-radioButton>
+                                    <label for="APPLICATION" class="ml-2">โมบายแอปพลิเคชัน</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-12 lg:col-12" *ngIf="actionStatus == 'save'">
+                    <div class="p-fluid">
+                        <label>ผู้ใช้งาน <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลผู้ใช้งาน"
+                            [ngStyle]="isFieldValid('username') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="username" [appStrongUsername]="true" type="text" />
+                        <div *ngIf="registerForm.get('username')!.hasError('strongUsername')"
+                            style="font-size: 14px;color: red;">
+                            ชื่อผู้ใช้ต้องมีความยาวมากกว่า 6 ตัวอักษรเท่านั้น
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *ngIf="actionStatus == 'save'">
+                    <div class="p-fluid">
+                        <label>รหัสผ่าน <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลรหัสผ่าน"
+                            [ngStyle]="isFieldValid('password') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="password" type="password" [appStrongPassword]="true" />
+                        <div *ngIf="registerForm.get('password')!.hasError('strongPassword')"
+                            style="font-size: 14px;color: red;">
+                            รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และต้องประกอบด้วยตัวพิมพ์ใหญ่อย่างน้อยหนึ่งตัว
+                            ตัวเลขอย่างน้อยหนึ่งตัว
+                            และอักขระพิเศษอย่างน้อยหนึ่งตัว
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *ngIf="actionStatus == 'save'">
+                    <div class="p-fluid">
+                        <label>ยืนยันรหัสผ่าน <span style="color: red">*</span></label>
+                        <input placeholder="กรอกข้อมูลยืนยันรหัสผ่าน"
+                            [ngStyle]="isFieldValid('confirmPassword') ? {border: '1px solid red', borderRadius: '7px'} : null"
+                            pInputText formControlName="confirmPassword" type="password" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="text-center gap-3 mt-4">
+        <p-button (click)="onCloseAction()" icon="pi  pi-times" label="ยกเลิก"
+            styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
+        <p-button (click)="validateForm()" icon="pi pi-save" label="บันทึก"
+            styleClass="p-button-success p-button-sm p-button-w"></p-button>
+    </div>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '27vw' }" acceptLabel="ยืนยัน" rejectLabel="ยกเลิก" [position]="'top'"
+    rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>

@@ -1,0 +1,53 @@
+.images-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.button-forget {
+  display: flex;
+  color: #0252b3;
+  flex-direction: row-reverse;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 14.5px;
+}
+
+.fullscreen-bg {
+  background-color: #30588f;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.contarct {
+  display: flex;
+  height: 100vh;
+  z-index: 999;
+  justify-content: space-around;
+  align-content: flex-end;
+  align-items: center;
+}
+
+:ng-deep .p-button-color {
+  background-color: #2688a5 !important;
+  border-color: #2688a5 !important;
+  border-radius: 28px !important;
+}
+
+.image {
+  display: flex;
+  justify-content: space-around;
+}
+
+.p-button-success {
+  background-color: #2688a5;
+  border: 1px solid #2688a5;
+  border-radius: 28px;
+}
