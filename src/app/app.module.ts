@@ -26,7 +26,7 @@ import { PrimeNgModule } from './shared/primeng.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent,
+    LayoutComponent
   ],
   imports: [
     PrimeNgModule,
