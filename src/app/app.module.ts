@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginModule } from './module/authentication/login/login.module';
-import { HomeComponent } from './module/home/home.component';
+
 import { AuthModule } from './core/auth.module';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
@@ -18,7 +18,6 @@ import { SpinnerLoadModule } from './shared/components/spinner-load/spinner-load
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { AccordionModule } from 'primeng/accordion';
 import { ChartModule } from 'primeng/chart';
-import { DashboardComponent } from './module/dashboard/dashboard.component';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CardModule } from 'primeng/card';
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -28,7 +27,6 @@ import { PrimeNgModule } from './shared/primeng.module';
   declarations: [
     AppComponent,
     LayoutComponent,
-    DashboardComponent,
   ],
   imports: [
     PrimeNgModule,
@@ -40,7 +38,6 @@ import { PrimeNgModule } from './shared/primeng.module';
     AppRoutingModule,
     SharedAppModule,
     LoginModule,
-    HomeComponent,
     ToastModule,
     SpinnerLoadModule,
     AuthModule,
