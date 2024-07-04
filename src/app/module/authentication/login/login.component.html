@@ -8,27 +8,27 @@
             <img [src]="imageUrl" style="width: 100px;" />
           </span>
           <div class="image">
-            <b style="font-size: 21px;margin-bottom: 4px;margin-top: 10px;">องค์การขนส่งมวลชนกรุงเทพ</b>
+            <b style="font-size: 32px;margin-bottom: 4px;margin-top: 10px;">ONE Portal</b>
           </div>
           <div class="image">
-            <b style="font-size: 18px; color: #919497">ระบบบริหารจัดการใบเที่ยวรถโดยสารประจำทาง</b>
+            <b style="font-size: 18px; color: #919497">ระบบจัดการข้อมูล Customer & Supplier</b>
           </div>
         </div>
       </div>
       <div class="grid pl-3 pr-3" style="margin-left: 15px;margin-right: 15px;">
         <div class="col">
           <div class="flex flex-column gap-2 mt-2">
-            <label>ผู้ใช้งาน</label>
-            <input pInputText [(ngModel)]="username" (input)="onInputChange($event)" />
+            <label>Username</label>
+            <input pInputText [(ngModel)]="username" (input)="onInputChange($event)" (keydown.enter)="onLogin()" />
           </div>
           <br />
           <div class="flex flex-column gap-2">
-            <label>รหัสผ่าน</label>
-            <input type="password" pInputText [(ngModel)]="password" (input)="onInputChangeTrim($event)" />
+            <label>Password</label>
+            <input type="password" pInputText [(ngModel)]="password" (input)="onInputChangeTrim($event)" (keydown.enter)="onLogin()" />
           </div>
           <b style="color: #0252b3" class="mb-3 button-forget mt-4"></b>
           <div class="p-fluid">
-            <button (click)="onLogin()" label="เข้าสู่ระบบ" pButton></button>
+            <button type="submit" (click)="onLogin()" label="เข้าสู่ระบบ" pButton></button>
           </div>
         </div>
       </div>
@@ -40,5 +40,3 @@
     </p-card>
   </div>
 </div>
-
-<p-toast></p-toast>

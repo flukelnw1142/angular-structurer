@@ -43,7 +43,7 @@ export class LayoutComponent implements OnInit {
     });
   }
 
-  findMatchingMenus(codesToCompare: string[], menuArray: SidebarMenu[]): SidebarMenu[] {
+  findMatchingMenus(codesToCompare: string[], menuArray: SidebarMenu[],attributeToCompare: string): Sidebar[] {
     return menuArray.filter(menu => codesToCompare.includes(menu.code));
   }
 
