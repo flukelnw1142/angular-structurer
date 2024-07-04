@@ -18,7 +18,7 @@ export const MENU_WEB: SidebarMenu[] = [
     menu_detail: 'จัดการข้อมูล Customer',
     icon: 'pi-th-large',
     router: '/customer',
-    code : 'Customer'
+    code: 'BUS_DIVISION'
 
   },
   {
@@ -28,7 +28,7 @@ export const MENU_WEB: SidebarMenu[] = [
     menu_detail: 'จัดการข้อมูล Supplier',
     icon: 'pi-building',
     router: '/supplier',
-    code : 'Supplier'
+    code: 'BUS_DIVISION'
   },
   {
     id: 4,
@@ -37,16 +37,16 @@ export const MENU_WEB: SidebarMenu[] = [
     menu_detail: 'จัดการข้อมูลผู้ใช้งานและสิทธิ์',
     icon: 'pi-users',
     router: '/user',
-    code : 'User'
+    code : 'USERS'
   },
   {
-    id: 10,
+    id: 5,
     menu_th: 'สิทธ์การใช้งาน',
     menu_en: 'Roles',
     menu_detail: 'จัดการสิทธิ์การใช้งานและการกำหนดบทบาท',
     icon: 'pi-verified',
     router: '/role',
-    code : 'Role'
+    code : 'ROLES'
   }
 ];
 

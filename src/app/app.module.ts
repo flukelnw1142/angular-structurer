@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginModule } from './module/authentication/login/login.module';
-
 import { AuthModule } from './core/auth.module';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
@@ -23,10 +22,22 @@ import { CardModule } from 'primeng/card';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { PrimeNgModule } from './shared/primeng.module';
+import { TableModule } from 'primeng/table';
+import { DashboardComponent } from './module/home/dashboard/dashboard.component';
+import { UserManagementComponent } from './module/user-management/user-management.component';
+import { RoleManagementComponent } from './module/role-management/role-management.component';
+import { CustomerComponent } from './module/customer/customer.component';
+import { SupplierComponent } from './module/supplier/supplier.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent
+    LayoutComponent,
+    UserManagementComponent,
+    RoleManagementComponent,
+    CustomerComponent,
+    SupplierComponent,
   ],
   imports: [
     PrimeNgModule,
@@ -46,7 +57,8 @@ import { PrimeNgModule } from './shared/primeng.module';
     ConfirmPopupModule,
     CardModule,
     TabMenuModule,
-    TabViewModule
+    TabViewModule,
+    TableModule,
   ],
   providers: [MessageService, ConfirmationService, { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true }],
 

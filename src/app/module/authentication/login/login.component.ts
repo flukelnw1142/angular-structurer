@@ -18,7 +18,7 @@ import { SidebarMenu } from 'src/app/shared/interfaces/sidebar-menu.interface';
 })
 export class LoginComponent implements OnInit {
   user: IUser | null = null;
-  imageUrlBackgroung = './assets/images/BMTA_transparent_black_effect.png';
+  imageUrlBackgroung = './assets/images/One-Opacity.jpg';
   imageUrl = './assets/images/logo/logo-one-e.png';
   imageUrlBackgroud = './assets/images/login-image.jpeg';
   constructor(

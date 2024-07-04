@@ -5,6 +5,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NoAuthGuard } from './core/guards/noAuth.guard';
 import { DashboardComponent } from './module/home/dashboard/dashboard.component';
+import { UserManagementComponent } from './module/user-management/user-management.component';
+import { RoleManagementComponent } from './module/role-management/role-management.component';
+import { CustomerComponent } from './module/customer/customer.component';
+import { SupplierModule } from './module/supplier/supplier/supplier.module';
+import { SupplierComponent } from './module/supplier/supplier.component';
 
 const routes: Routes = [
   {
@@ -37,6 +42,56 @@ const routes: Routes = [
       { path: '', component: DashboardComponent }
     ]
   },
+  {
+    path: 'user',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', component: UserManagementComponent }
+    ]
+  },
+  {
+    path: 'role',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', component: RoleManagementComponent }
+    ]
+  },
+  {
+    path: 'customer',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', component: CustomerComponent }
+    ]
+  },
+  {
+    path: 'supplier',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', component: SupplierComponent }
+    ]
+  },
+
+
 ];
 
 @NgModule({

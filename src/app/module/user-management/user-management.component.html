@@ -1,0 +1,62 @@
+<p-card header="User Management">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12 p-md-4">
+        <p-inputText placeholder="Search..." [(ngModel)]="searchTerm"></p-inputText>
+      </div>
+      <div class="p-col-12 p-md-8 mb-2" style="text-align: right;">
+        <button pButton type="button" icon="pi pi-plus" class="p-button-rounded p-button-success p-button-sm" (click)="openNew()"></button>
+      </div>
+    </div>
+    
+    <p-table [value]="users" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm mr-1" (click)="editUser(user)"></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm" (click)="deleteUser(user)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  
+  <p-dialog header="User Details" [(visible)]="userDialog" [modal]="true" [style]="{width: '50vw'}">
+    <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="name">Name</label>
+          <input id="name" type="text" pInputText formControlName="name"/>
+        </div>
+        <div class="p-field">
+          <label for="email">Email</label>
+          <input id="email" type="text" pInputText formControlName="email"/>
+        </div>
+        <div class="p-field">
+          <label for="role">Role</label>
+          <p-dropdown id="role" [options]="roles" formControlName="role" optionLabel="label"></p-dropdown>
+        </div>
+        <div class="p-field">
+          <label for="status">Status</label>
+          <p-dropdown id="status" [options]="statuses" formControlName="status" optionLabel="label"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-dialog-footer mt-2">
+        <button pButton type="submit" label="Save" class="p-button-success"></button>
+        <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="hideDialog()"></button>
+      </div>
+    </form>
+  </p-dialog>
+  

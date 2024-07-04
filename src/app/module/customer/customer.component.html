@@ -1,0 +1,94 @@
+<p-card [ngStyle]="{ 'margin-bottom': '1.5rem' }" header="Supplier Info">
+    <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid grid formgrid">
+            <!-- Supplier Info Fields -->
+            <div class="field col-12 md:col-4">
+                <label for="supplier_id">Supplier ID</label>
+                <input id="supplier_id" type="text" pInputText formControlName="supplier_id" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="firstname">First Name</label>
+                <input id="firstname" type="text" pInputText formControlName="firstname" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="lastname">Last Name</label>
+                <input id="lastname" type="text" pInputText formControlName="lastname" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="Tax_Id">Tax ID</label>
+                <input id="Tax_Id" type="text" pInputText formControlName="Tax_Id" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="address">Address</label>
+                <input id="address" type="text" pInputText formControlName="address" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="district">District</label>
+                <input id="district" type="text" pInputText formControlName="district" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="subdistrict">Subdistrict</label>
+                <input id="subdistrict" type="text" pInputText formControlName="subdistrict" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="province">Province</label>
+                <input id="province" type="text" pInputText formControlName="province" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="postal">Postal Code</label>
+                <input id="postal" type="text" pInputText formControlName="postal" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="tel">Telephone</label>
+                <input id="tel" type="text" pInputText formControlName="tel" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="email">Email</label>
+                <input id="email" type="email" pInputText formControlName="email" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="supplier_num">Supplier Number</label>
+                <input id="supplier_num" type="text" pInputText formControlName="supplier_num" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="supplier_type">Supplier Type</label>
+                <input id="supplier_type" type="text" pInputText formControlName="supplier_type" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="site">Site</label>
+                <input id="site" type="text" pInputText formControlName="site" />
+            </div>
+        </div>
+    </form>
+</p-card>
+<br>
+<p-card header="Supplier Bank">
+    <form [formGroup]="supplierBankForm" (ngSubmit)="onSubmitBank()">
+        <div class="p-fluid grid formgrid">
+            <!-- Supplier Bank Fields -->
+            <div class="field col-12 md:col-4">
+                <label for="name_bank">Bank Name</label>
+                <input id="name_bank" type="text" pInputText formControlName="name_bank" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="branch">Branch</label>
+                <input id="branch" type="text" pInputText formControlName="branch" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="account_num">Account Number</label>
+                <input id="account_num" type="text" pInputText formControlName="account_num" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="account_name">Account Name</label>
+                <input id="account_name" type="text" pInputText formControlName="account_name" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="vat">VAT</label>
+                <input id="vat" type="text" pInputText formControlName="vat" />
+            </div>
+            <div class="field col-12">
+                <button pButton type="submit" label="Save" class="p-button-success"></button>
+            </div>
+        </div>
+    </form>
+</p-card>

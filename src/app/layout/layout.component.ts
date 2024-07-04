@@ -8,6 +8,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -21,7 +22,8 @@ export class LayoutComponent implements OnInit {
   _authService = inject(AuthService)
   layoutType$ = this._layoutService.layout$;
   LayoutTyped = lt;
-  constructor(private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private confirmationService: ConfirmationService
+    , private messageService: MessageService) { }
   isToggle: boolean = true;
 
   positionLeft = '270px';
@@ -31,6 +33,7 @@ export class LayoutComponent implements OnInit {
     'margin-top': this.positionTop,
   };
 
+  // items: SidebarMenu[] = [];
   items: SidebarMenu[] = [];
 
   ngOnInit() {
@@ -41,9 +44,10 @@ export class LayoutComponent implements OnInit {
       const matchingMenus = this.findMatchingMenus(data!.roleCode, MENU_WEB)
       this.items = matchingMenus
     });
+    
   }
 
-  findMatchingMenus(codesToCompare: string[], menuArray: SidebarMenu[],attributeToCompare: string): Sidebar[] {
+  findMatchingMenus(codesToCompare: string[], menuArray: SidebarMenu[]): SidebarMenu[] {
     return menuArray.filter(menu => codesToCompare.includes(menu.code));
   }
 
